@@ -29,8 +29,11 @@
 
                     
                     <div class="mx-1 px-1">
-                        
-                        <span class="bg-secondary text-white px-2 py-1 rounded fw-bold">{{$product->brand->brand_name}}</span>
+                        <span class="bg-secondary text-white px-2 py-1 rounded fw-bold">
+                            @if($product->brand)
+                            {{$product->brand->brand_name}}
+                            @endif
+                        </span>
                     </div>
                    
 

@@ -13,12 +13,12 @@ class Product extends Model
     //     'images' => 'array',
     // ];
     public function Category(){
-        return $this->belongsTo(Category::class, 'id');
+        return $this->belongsTo(Category::class, 'cat_id');
 
     }
 
     public function Brand(){
-        return $this->belongsTo(Brand::class, 'id');
+        return $this->belongsTo(Brand::class, 'brand_id');
 
     }
 }

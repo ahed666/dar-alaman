@@ -11,14 +11,14 @@ $images=$product->images;
 the best prices. Contact us for more details!')
 
 @section('og_url',route('product.show',$product->slug))
-@section('og_image',Voyager::image($images[0]) )
+@section('og_image',Voyager::image($product->main_image) )
 @section('og_type','product' )
 
 @section('t_title',$product->name.' for Sale in UAE | Best Price & Quality' )
 @section('t_description',$product->name.' for sale, heavy machinery UAE, construction equipment, buy [product type],
 used '.$product->name.' UAE' )
 @section('t_url',route('product.show',$product->slug) )
-@section('t_image', Voyager::image($images[0]) )
+@section('t_image', Voyager::image($product->main_image) )
 
 @section('content')
 <div class="container-fluid page-header py-6 wow fadeIn" data-wow-delay="0.1s">

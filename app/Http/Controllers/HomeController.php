@@ -12,10 +12,11 @@ class HomeController extends Controller
     
     public function home(){
 
-        $latestProducts=Product::latest()->take(8)->get();
+        $latestProducts=Product::with('brand')->latest()->take(8)->get();
         
         $sliders=Slider::all();
-       
+    
+        
         
         
         return view('home',compact('latestProducts','sliders'));

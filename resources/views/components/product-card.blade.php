@@ -1,4 +1,6 @@
-<div class="item wow  animate__animated  animate__backInLeft">
+<div class="item wow animate__animated animate__backInLeft" 
+style="{{ $product->status === 'sold' ? 'opacity: 0.5;' : '' }}">
+
     <div class="box">
         <div class="img-box">
             <img src="{{Voyager::image($product->main_image)}}" alt="" />
@@ -25,7 +27,16 @@
                       <span class="bg-warning text-black px-2 py-1 rounded fw-bold">{{__('Used')}}</span>
 
                       @endif
-                      </div>
+                     </div>
+
+                     <div class="mx-1 px-1">
+                      @if($product->status==='for sale')
+                        <span class="bg-success text-white px-2 py-1 rounded fw-bold">{{$product->status}}</span>
+                      @elseif($product->status==='sold')
+                      <span class="bg-primary text-white px-2 py-1 rounded fw-bold">{{$product->status}}</span>
+
+                      @endif
+                     </div>
 
                     
                     <div class="mx-1 px-1">

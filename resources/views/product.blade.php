@@ -28,12 +28,16 @@ used '.$product->name.' UAE' )
             <ol class="breadcrumb justify-content-center mb-0">
                 <li class="breadcrumb-item"><a class="text-white" href="{{route('home')}}">{{__('Home')}}</a></li>
 
+                @if($product->brand)
                 <li class="breadcrumb-item"><a class="text-white"
-                        href="{{route('brand.show',$product->brand->slug)}}">{{$product->brand->name}}</a></li>
+                        href="{{route('brand.show',$product->brand->slug)}}">{{$product->brand->name}}</a>
+                </li>
+                @endif
 
+                @if($product->category)
                 <li class="breadcrumb-item"><a class="text-white"
                         href="{{route('category.show',$product->category->slug)}}">{{$product->category->name}}</a></li>
-
+                @endif
 
                 <li class="breadcrumb-item text-primary active" aria-current="page">{{$product->name}}</li>
             </ol>
@@ -65,12 +69,17 @@ used '.$product->name.' UAE' )
             <div class="product-info col-sm-12 col-md-6 col-lg-6">
                 <h1 class="product-name">{{$product->name}}</h1>
                 <p class="product-price">{{$product->price}} AED</p>
-                <div class="m-1 px-1">
+                <div class="d-flex gap-2 flex-wrap m-1 px-1">
                     @if($product->new)
-                    <span class="bg-success text-white px-2 py-1 rounded fw-bold">{{__('New')}}</span>
+                        <span class="bg-success text-white px-2 py-1 rounded fw-bold">{{ __('New') }}</span>
                     @else
-                    <span class="bg-warning text-black px-2 py-1 rounded fw-bold">{{__('Used')}}</span>
+                        <span class="bg-warning text-dark px-2 py-1 rounded fw-bold">{{ __('Used') }}</span>
+                    @endif
 
+                    @if($product->status === 'for sale')
+                        <span class="bg-success text-white ml-1 px-2 py-1 rounded fw-bold text-capitalize">{{ $product->status }}</span>
+                    @elseif($product->status === 'sold')
+                        <span class="bg-secondary text-white ml-1 px-2 py-1 rounded fw-bold text-capitalize">{{ $product->status }}</span>
                     @endif
                 </div>
                 <p class="product-description">

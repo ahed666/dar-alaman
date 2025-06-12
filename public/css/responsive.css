@@ -15,13 +15,7 @@
 }
 
 @media (max-width: 1120px) {
-  #main-image {
-  min-width: 500px;
-  max-height: 500px;
-  min-height: 500px;
-  object-fit: contain;
-
-}
+  
 }
 
 @media (max-width: 992px) {
@@ -76,7 +70,9 @@
 #main-image {
   max-width: min-content;
   object-fit: contain;
-
+  min-width: min-content;
+  max-height: min-content;
+  min-height: min-content;
 }
 .product-thumbnails {
   display: flex;

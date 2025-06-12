@@ -1459,7 +1459,13 @@ border: 1px solid var(--secondary);
   margin-bottom: 10px;
 }
 
+#main-image {
+  min-width: 500px;
+  max-height: 500px;
+  min-height: 500px;
+  object-fit: contain;
 
+}
 
 .product-thumbnails {
   display: flex;

@@ -70,9 +70,9 @@
 #main-image {
   max-width: min-content;
   object-fit: contain;
-  min-width: min-content;
-  max-height: min-content;
-  min-height: min-content;
+  min-width: auto;
+  max-height: -webkit-fill-available;
+  min-height: auto;
 }
 .product-thumbnails {
   display: flex;

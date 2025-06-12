@@ -69,11 +69,15 @@ used '.$product->name.' UAE' )
             <div class="product-info col-sm-12 col-md-6 col-lg-6">
                 <h1 class="product-name">{{$product->name}}</h1>
                 <p class="product-price">{{$product->price}} AED</p>
+
                 <div class="d-flex gap-2 flex-wrap m-1 px-1">
                     @if($product->new)
                         <span class="bg-success text-white px-2 py-1 rounded fw-bold">{{ __('New') }}</span>
                     @else
                         <span class="bg-warning text-dark px-2 py-1 rounded fw-bold">{{ __('Used') }}</span>
+                        -
+                        <h6 class="d-inline fw-bold text-lg pb-0 mb-0">{{$product->work_hours}}<small class="mx-1">hrs</small></h6>
+
                     @endif
 
                     @if($product->status === 'for sale')

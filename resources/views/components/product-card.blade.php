@@ -3,7 +3,7 @@ style="{{ $product->status === 'sold' ? 'opacity: 0.5;' : '' }}">
 
     <div class="box">
         <div class="img-box">
-            <img src="{{Voyager::image($product->main_image)}}" alt="" />
+            <img  src="{{Voyager::image($product->main_image)}}" alt="" />
             <a href="{{route('product.show',$product->slug)}}" class="pin_link">
                 <i class="fa fa-link" aria-hidden="true"></i>
             </a>

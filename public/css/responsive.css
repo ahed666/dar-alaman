@@ -14,7 +14,15 @@
   }
 }
 
-@media (max-width: 1120px) {}
+@media (max-width: 1120px) {
+  #main-image {
+  min-width: 500px;
+  max-height: 500px;
+  min-height: 500px;
+  object-fit: contain;
+
+}
+}
 
 @media (max-width: 992px) {
   .hero_area {

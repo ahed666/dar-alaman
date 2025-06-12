@@ -74,10 +74,12 @@
   display: flex;
   gap: 5px;
   justify-content: center;
-  max-width: min-content;
+  max-width: -webkit-fill-available;
   overflow-y: auto;
 }
-
+.product-detail-section{
+  padding: 20px;
+}
   .categories-section{
     bottom: 0px !important;
     left: 50% !important;

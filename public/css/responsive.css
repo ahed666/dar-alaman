@@ -59,6 +59,17 @@
 
 /* mobile */
 @media (max-width: 768px) {
+  .product-images {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
+}
+#main-image {
+  max-width: min-content;
+  object-fit: contain;
+
+}
   .categories-section{
     bottom: 0px !important;
     left: 50% !important;

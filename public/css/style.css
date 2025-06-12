@@ -1462,6 +1462,7 @@ border: 1px solid var(--secondary);
 #main-image {
   min-width: 500px;
   max-height: 500px;
+  min-height: 500px;
   object-fit: contain;
 
 }

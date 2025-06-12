@@ -70,6 +70,14 @@
   object-fit: contain;
 
 }
+.product-thumbnails {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  max-width: min-content;
+  overflow-y: auto;
+}
+
   .categories-section{
     bottom: 0px !important;
     left: 50% !important;

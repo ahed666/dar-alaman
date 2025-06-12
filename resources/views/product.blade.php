@@ -75,9 +75,7 @@ used '.$product->name.' UAE' )
                         <span class="bg-success text-white px-2 py-1 rounded fw-bold">{{ __('New') }}</span>
                     @else
                         <span class="bg-warning text-dark px-2 py-1 rounded fw-bold">{{ __('Used') }}</span>
-                        -
-                        <h6 class="d-inline fw-bold text-lg pb-0 mb-0">{{$product->work_hours}}<small class="mx-1">hrs</small></h6>
-
+                         
                     @endif
 
                     @if($product->status === 'for sale')
@@ -85,7 +83,17 @@ used '.$product->name.' UAE' )
                     @elseif($product->status === 'sold')
                         <span class="bg-secondary text-white ml-1 px-2 py-1 rounded fw-bold text-capitalize">{{ $product->status }}</span>
                     @endif
+
                 </div>
+                @if(!$product->new)
+                <div class="mt-2 px-3 py-2 bg-light border-start border-4 border-warning rounded">
+                    <small class="text-muted d-block">Work Hours</small>
+                    <span class="fw-bold fs-5 text-dark">
+                        {{$product->work_hours}}
+                        <small class="text-secondary">hrs</small>
+                    </span>
+                </div>
+                @endif
                 <p class="product-description">
                     {{$product->description}}
                 </p>

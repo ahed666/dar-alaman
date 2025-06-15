@@ -4,9 +4,7 @@
         <h2>
           Brands
         </h2>
-        <p>
-        Authorized distributors for some of the best equipment brands
-        </p>
+        <p>Quality used equipment from trusted, reliable brands.        </p>
       </div>
       <div class="carousel-wrap ">
         

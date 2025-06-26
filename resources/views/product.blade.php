@@ -48,26 +48,32 @@ used '.$product->name.' UAE' )
     <div class="product-detail-container">
         <div class="row">
             <!-- Main Product Image -->
+            <!-- Main Product Image -->
             <div class="product-images col-12 col-md-6 col-lg-6">
-                <img id="main-image" src="{{Voyager::image($product->main_image)}}" alt="Main Product Image">
+                <img id="main-image"
+                    src="{{ Voyager::image($product->main_image) }}"
+                    alt="Main Product Image"
+                    class="img-fluid"
+                    style="cursor: zoom-in;"
+                    onclick="openZoomModal(this.src)">
 
-                <!-- Thumbnails for Additional Images -->
-              <div class="product-thumbnails mt-3 d-flex gap-2 flex-wrap">
-    <img src="{{ Voyager::image($product->main_image) }}"
-         alt="Thumbnail"
-         style="width: 70px; height: 70px; object-fit: cover; cursor: zoom-in;"
-         onclick="openZoomModal('{{ Voyager::image($product->main_image) }}')">
+                <!-- Thumbnails -->
+                <div class="product-thumbnails mt-3 d-flex gap-2 flex-wrap">
+                    <img src="{{ Voyager::image($product->main_image) }}"
+                        style="width: 70px; height: 70px; object-fit: cover; cursor: pointer;"
+                        onclick="changeMainImage(this.src)">
 
-    @foreach($product->images as $image)
-        <img src="{{ Voyager::image($image) }}"
-             alt="Thumbnail"
-             style="width: 70px; height: 70px; object-fit: cover; cursor: zoom-in;"
-             onclick="openZoomModal('{{ Voyager::image($image) }}')">
-    @endforeach
-</div>
-
-
+                    @foreach($product->images as $image)
+                        <img src="{{ Voyager::image($image) }}"
+                            style="width: 70px; height: 70px; object-fit: cover; cursor: pointer;"
+                            onclick="changeMainImage('{{ Voyager::image($image) }}')">
+                    @endforeach
+                </div>
             </div>
+
+    
+
+
 
             <!-- Product Details -->
             <div class="product-info col-sm-12 col-md-6 col-lg-6">
@@ -111,20 +117,21 @@ used '.$product->name.' UAE' )
             </div>
         </div>
     </div>
-    <!-- Modal for full image view -->
-<div class="modal fade" id="imageZoomModal" tabindex="-1" aria-labelledby="imageZoomModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-xl">
-    <div class="modal-content bg-dark">
-      <div class="modal-body text-center position-relative">
-        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
-        <div id="zoomContainer" style="overflow: hidden;">
-          <img id="zoomImage" src="" alt="Zoomed Image" class="img-fluid mx-auto d-block" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
+ 
+        <!-- Zoom Modal -->
+            <div class="modal fade" id="imageZoomModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content bg-dark">
+                <div class="modal-body position-relative text-center">
+                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+                            data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div id="zoomWrapper" style="overflow: hidden;">
+                    <img id="zoomImage" src="" alt="Zoomed Image" class="img-fluid mx-auto d-block" />
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
 </section>
 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.panzoom/4.0.0/panzoom.min.js"></script>
@@ -135,53 +142,60 @@ function updateMainImage(thumbnail) {
     mainImage.src = thumbnail.src; // Update the main image source
 }
  
-    let panzoomInstance = null;
+document.addEventListener("DOMContentLoaded", function () {
+    const mainImage = document.getElementById("main-image");
+    const zoomImage = document.getElementById("zoomImage");
+    const zoomWrapper = document.getElementById("zoomWrapper");
+    let panzoomInstance;
 
-window.openZoomModal = function(imageUrl) {
-    const image = document.getElementById("zoomImage");
-    image.src = imageUrl;
+    // تغيير الصورة الرئيسية + إعادة تعيين الزوم
+    window.changeMainImage = function (src) {
+        mainImage.src = src;
+    };
 
-    const modal = new bootstrap.Modal(document.getElementById('imageZoomModal'));
-    modal.show();
+    // فتح المودال مع تفعيل Panzoom
+    window.openZoomModal = function (src) {
+        zoomImage.src = src;
+        const modal = new bootstrap.Modal(document.getElementById("imageZoomModal"));
+        modal.show();
 
-    setTimeout(() => {
-        const container = document.getElementById("zoomContainer");
+        setTimeout(() => {
+            if (panzoomInstance) panzoomInstance.destroy();
 
-        if (panzoomInstance) panzoomInstance.destroy();
+            panzoomInstance = Panzoom(zoomImage, {
+                maxScale: 5,
+                minScale: 1,
+                contain: 'outside'
+            });
 
-        panzoomInstance = Panzoom(container.firstElementChild, {
-            maxScale: 5,
-            minScale: 1,
-            contain: 'outside',
-            startScale: 1
-        });
+            zoomWrapper.addEventListener("wheel", panzoomInstance.zoomWithWheel);
 
-        panzoomInstance.pan(10, 10);
-        panzoomInstance.zoom(2, { animate: true });
-
-        container.addEventListener('wheel', panzoomInstance.zoomWithWheel);
-
-        // Zoom In عند الكليك
-        container.addEventListener('click', (e) => {
-            e.preventDefault();
-            panzoomInstance.zoomIn();
-        });
-
-        let lastTap = 0;
-        container.addEventListener('touchend', (e) => {
-            const now = new Date().getTime();
-            const tapLength = now - lastTap;
-            if (tapLength < 300 && tapLength > 0) {
-                panzoomInstance.zoomOut();
+            // Zoom In (click left)
+            zoomWrapper.addEventListener("mousedown", (e) => {
                 e.preventDefault();
-            }
-            lastTap = now;
-        });
+                if (e.button === 0) {
+                    panzoomInstance.zoomIn();
+                } else if (e.button === 2) {
+                    panzoomInstance.zoomOut();
+                }
+            });
 
-        container.oncontextmenu = () => false;
-    }, 300);
-};
+            // Double-tap on mobile for zoom out
+            let lastTap = 0;
+            zoomWrapper.addEventListener('touchend', (e) => {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                if (tapLength < 300 && tapLength > 0) {
+                    panzoomInstance.zoomOut();
+                    e.preventDefault();
+                }
+                lastTap = currentTime;
+            });
 
+            zoomWrapper.oncontextmenu = () => false;
+        }, 300);
+    };
+});
 
 </script>
 

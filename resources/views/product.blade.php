@@ -48,21 +48,16 @@ used '.$product->name.' UAE' )
     <div class="product-detail-container">
         <div class="row">
             <!-- Main Product Image -->
-            <div class="product-images col-12 col-md-6 col-lg-6">
-                <img id="main-image" src="{{Voyager::image($product->main_image)}}" alt="Main Product Image">
+           <div class="gallery" id="product-gallery">
+            <a href="{{ Voyager::image($product->main_image) }}" data-pswp-width="1600" data-pswp-height="1200" target="_blank">
+                <img src="{{ Voyager::image($product->main_image) }}" width="300" alt="Main Image">
+            </a>
 
-                <!-- Thumbnails for Additional Images -->
-                <div class="product-thumbnails">
-                    <img src="{{Voyager::image($product->main_image)}}" alt="Thumbnail 1"
-                        onclick="updateMainImage(this)">
-
-                    @if($product->images)
-                    @foreach($product->images as $image)
-                    <img src="{{Voyager::image($image)}}" alt="Thumbnail 1" onclick="updateMainImage(this)">
-
-                    @endforeach
-                    @endif
-                </div>
+            @foreach ($product->images as $image)
+                <a href="{{ Voyager::image($image) }}" data-pswp-width="1600" data-pswp-height="1200" target="_blank">
+                <img src="{{ Voyager::image($image) }}" width="100" alt="Thumbnail" />
+                </a>
+            @endforeach
             </div>
 
             <!-- Product Details -->
@@ -108,11 +103,20 @@ used '.$product->name.' UAE' )
         </div>
     </div>
 </section>
-<script>
+<script type="module">
 function updateMainImage(thumbnail) {
     const mainImage = document.getElementById("main-image");
     mainImage.src = thumbnail.src; // Update the main image source
 }
+import PhotoSwipeLightbox from 'https://unpkg.com/photoswipe@5/dist/photoswipe-lightbox.esm.min.js';
+
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: '#product-gallery',
+    children: 'a',
+    pswpModule: () => import('https://unpkg.com/photoswipe@5/dist/photoswipe.esm.min.js'),
+  });
+
+  lightbox.init();
 </script>
 
 

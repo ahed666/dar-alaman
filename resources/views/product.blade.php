@@ -119,19 +119,21 @@ used '.$product->name.' UAE' )
     </div>
  
         <!-- Zoom Modal -->
-            <div class="modal fade" id="imageZoomModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
-                <div class="modal-content bg-dark">
-                <div class="modal-body position-relative text-center">
-                    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
-                            data-bs-dismiss="modal" aria-label="Close"></button>
-                    <div id="zoomWrapper" style="overflow: hidden;">
-                    <img id="zoomImage" src="" alt="Zoomed Image" class="img-fluid mx-auto d-block" />
-                    </div>
-                </div>
-                </div>
-            </div>
-            </div>
+            <div class="modal-body position-relative text-center">
+    <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3"
+            data-bs-dismiss="modal" aria-label="Close"></button>
+
+    <div id="zoomWrapper" style="overflow: hidden;">
+        <img id="zoomImage" src="" alt="Zoomed Image" class="img-fluid mx-auto d-block" />
+    </div>
+
+    <div class="text-center mt-3">
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+            Close
+        </button>
+    </div>
+</div>
+
 </section>
 
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.panzoom/4.0.0/panzoom.min.js"></script>

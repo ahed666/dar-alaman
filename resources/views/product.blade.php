@@ -137,8 +137,6 @@ function updateMainImage(thumbnail) {
  
     let panzoomInstance = null;
 
-   let panzoomInstance = null;
-
 window.openZoomModal = function(imageUrl) {
     const image = document.getElementById("zoomImage");
     image.src = imageUrl;

@@ -56,14 +56,14 @@ used '.$product->name.' UAE' )
             <!-- Main Product Image -->
           
            <div class="gallery" id="product-gallery">
-            <a href="{{ Voyager::image($product->main_image) }}" data-pswp-width="400" data-pswp-height="300" target="_blank">
+            <a href="{{ Voyager::image($product->main_image) }}" data-pswp-width="800" data-pswp-height="600" target="_blank">
                 <img src="{{ Voyager::image($product->main_image) }}"   width="300" 
          height="200" 
          style="object-fit: cover; aspect-ratio: 4/3; display: block;"  alt="Main Image">
             </a>
 
             @foreach ($product->images as $image)
-                <a href="{{ Voyager::image($image) }}" data-pswp-width="400" data-pswp-height="300" target="_blank">
+                <a href="{{ Voyager::image($image) }}" data-pswp-width="800" data-pswp-height="600" target="_blank">
                 <img src="{{ Voyager::image($image) }}" width="100" 
      height="75" 
      style="object-fit: cover; aspect-ratio: 4/3; display: block;"  alt="Thumbnail"  />

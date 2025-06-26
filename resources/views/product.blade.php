@@ -126,56 +126,65 @@ used '.$product->name.' UAE' )
 </div>
 
 </section>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.panzoom/4.0.0/panzoom.min.js"></script>
 <script>
+   
 function updateMainImage(thumbnail) {
     const mainImage = document.getElementById("main-image");
     mainImage.src = thumbnail.src; // Update the main image source
 }
-  let panzoomInstance = null;
+ 
+    let panzoomInstance = null;
 
-    function openZoomModal(imageUrl) {
-        const image = document.getElementById("zoomImage");
-        image.src = imageUrl;
+   let panzoomInstance = null;
 
-        const modal = new bootstrap.Modal(document.getElementById('imageZoomModal'));
-        modal.show();
+window.openZoomModal = function(imageUrl) {
+    const image = document.getElementById("zoomImage");
+    image.src = imageUrl;
 
-        setTimeout(() => {
-            const container = document.getElementById("zoomContainer");
+    const modal = new bootstrap.Modal(document.getElementById('imageZoomModal'));
+    modal.show();
 
-            // تدمير القديم
-            if (panzoomInstance) panzoomInstance.destroy();
+    setTimeout(() => {
+        const container = document.getElementById("zoomContainer");
 
-            // تفعيل panzoom
-            panzoomInstance = Panzoom(container, {
-                maxScale: 5,
-                minScale: 1,
-                contain: 'outside',
-                startScale: 1
-            });
+        if (panzoomInstance) panzoomInstance.destroy();
 
-            container.addEventListener('wheel', panzoomInstance.zoomWithWheel);
-            container.oncontextmenu = () => false;
+        panzoomInstance = Panzoom(container.firstElementChild, {
+            maxScale: 5,
+            minScale: 1,
+            contain: 'outside',
+            startScale: 1
+        });
 
-            // تكبير باللمس العادي أو النقرة
-            container.addEventListener('click', (e) => {
+        panzoomInstance.pan(10, 10);
+        panzoomInstance.zoom(2, { animate: true });
+
+        container.addEventListener('wheel', panzoomInstance.zoomWithWheel);
+
+        // Zoom In عند الكليك
+        container.addEventListener('click', (e) => {
+            e.preventDefault();
+            panzoomInstance.zoomIn();
+        });
+
+        let lastTap = 0;
+        container.addEventListener('touchend', (e) => {
+            const now = new Date().getTime();
+            const tapLength = now - lastTap;
+            if (tapLength < 300 && tapLength > 0) {
+                panzoomInstance.zoomOut();
                 e.preventDefault();
-                panzoomInstance.zoomIn();
-            });
+            }
+            lastTap = now;
+        });
 
-            // لمس مزدوج = تصغير
-            let lastTap = 0;
-            container.addEventListener('touchend', (e) => {
-                const currentTime = new Date().getTime();
-                const tapLength = currentTime - lastTap;
-                if (tapLength < 300 && tapLength > 0) {
-                    panzoomInstance.zoomOut();
-                    e.preventDefault();
-                }
-                lastTap = currentTime;
-            });
-        }, 300);
-    }
+        container.oncontextmenu = () => false;
+    }, 300);
+};
+
+
 </script>
 
 

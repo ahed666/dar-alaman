@@ -134,23 +134,47 @@ function updateMainImage(thumbnail) {
   let panzoomInstance = null;
 
     function openZoomModal(imageUrl) {
-        const imageElement = document.getElementById("zoomImage");
-        imageElement.src = imageUrl;
+        const image = document.getElementById("zoomImage");
+        image.src = imageUrl;
 
-        // Show modal
         const modal = new bootstrap.Modal(document.getElementById('imageZoomModal'));
         modal.show();
 
-        // Wait for modal to be visible then apply panzoom
         setTimeout(() => {
+            const container = document.getElementById("zoomContainer");
+
+            // تدمير القديم
             if (panzoomInstance) panzoomInstance.destroy();
-            panzoomInstance = Panzoom(imageElement.parentElement, {
+
+            // تفعيل panzoom
+            panzoomInstance = Panzoom(container, {
                 maxScale: 5,
                 minScale: 1,
-                contain: 'outside'
+                contain: 'outside',
+                startScale: 1
             });
-            imageElement.parentElement.addEventListener('wheel', panzoomInstance.zoomWithWheel);
-        }, 200);
+
+            container.addEventListener('wheel', panzoomInstance.zoomWithWheel);
+            container.oncontextmenu = () => false;
+
+            // تكبير باللمس العادي أو النقرة
+            container.addEventListener('click', (e) => {
+                e.preventDefault();
+                panzoomInstance.zoomIn();
+            });
+
+            // لمس مزدوج = تصغير
+            let lastTap = 0;
+            container.addEventListener('touchend', (e) => {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                if (tapLength < 300 && tapLength > 0) {
+                    panzoomInstance.zoomOut();
+                    e.preventDefault();
+                }
+                lastTap = currentTime;
+            });
+        }, 300);
     }
 </script>
 

@@ -52,17 +52,21 @@ used '.$product->name.' UAE' )
                 <img id="main-image" src="{{Voyager::image($product->main_image)}}" alt="Main Product Image">
 
                 <!-- Thumbnails for Additional Images -->
-                <div class="product-thumbnails">
-                    <img src="{{Voyager::image($product->main_image)}}" alt="Thumbnail 1"
-                        onclick="updateMainImage(this)">
+              <div class="product-thumbnails mt-3 d-flex gap-2 flex-wrap">
+    <img src="{{ Voyager::image($product->main_image) }}"
+         alt="Thumbnail"
+         style="width: 70px; height: 70px; object-fit: cover; cursor: zoom-in;"
+         onclick="openZoomModal('{{ Voyager::image($product->main_image) }}')">
 
-                    @if($product->images)
-                    @foreach($product->images as $image)
-                    <img src="{{Voyager::image($image)}}" alt="Thumbnail 1" onclick="updateMainImage(this)">
+    @foreach($product->images as $image)
+        <img src="{{ Voyager::image($image) }}"
+             alt="Thumbnail"
+             style="width: 70px; height: 70px; object-fit: cover; cursor: zoom-in;"
+             onclick="openZoomModal('{{ Voyager::image($image) }}')">
+    @endforeach
+</div>
 
-                    @endforeach
-                    @endif
-                </div>
+
             </div>
 
             <!-- Product Details -->
@@ -107,12 +111,47 @@ used '.$product->name.' UAE' )
             </div>
         </div>
     </div>
+    <!-- Modal for full image view -->
+<div class="modal fade" id="imageZoomModal" tabindex="-1" aria-labelledby="imageZoomModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content bg-dark">
+      <div class="modal-body text-center position-relative">
+        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div id="zoomContainer" style="overflow: hidden;">
+          <img id="zoomImage" src="" alt="Zoomed Image" class="img-fluid mx-auto d-block" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </section>
 <script>
 function updateMainImage(thumbnail) {
     const mainImage = document.getElementById("main-image");
     mainImage.src = thumbnail.src; // Update the main image source
 }
+  let panzoomInstance = null;
+
+    function openZoomModal(imageUrl) {
+        const imageElement = document.getElementById("zoomImage");
+        imageElement.src = imageUrl;
+
+        // Show modal
+        const modal = new bootstrap.Modal(document.getElementById('imageZoomModal'));
+        modal.show();
+
+        // Wait for modal to be visible then apply panzoom
+        setTimeout(() => {
+            if (panzoomInstance) panzoomInstance.destroy();
+            panzoomInstance = Panzoom(imageElement.parentElement, {
+                maxScale: 5,
+                minScale: 1,
+                contain: 'outside'
+            });
+            imageElement.parentElement.addEventListener('wheel', panzoomInstance.zoomWithWheel);
+        }, 200);
+    }
 </script>
 
 
